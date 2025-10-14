@@ -126,3 +126,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Disable any global left-right or looping animations applied by animation libraries
+   to the mobile hamburger button. This forces the icons to be static. */
+.no-anim-hamburger,
+.no-anim-hamburger * {
+  animation: none !important;
+  -webkit-animation: none !important;
+  transform: none !important;
+}

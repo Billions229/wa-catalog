@@ -3,8 +3,8 @@ import Image from "next/image"
 
 export function Footer() {
   return (
-    // Use the same primary background as navbar when scrolled: bg-background with a top border and primary accents
-    <footer className="bg-background text-foreground py-12">
+  // Use a more readable blue background and white text for contrast
+  <footer className="bg-[#2563eb] text-white py-12">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* Brand */}
@@ -20,7 +20,7 @@ export function Footer() {
               </div>
               <span className="text-xl font-bold font-[family-name:var(--font-poppins)]">Wa-Catalog</span>
             </div>
-            <p className="text-sm text-background/80 leading-relaxed">
+            <p className="text-sm text-white/90 leading-relaxed">
               Connectez acheteurs et vendeurs via WhatsApp. La solution de commerce conversationnel pour l'Afrique de
               l'Ouest.
             </p>
@@ -29,7 +29,7 @@ export function Footer() {
           {/* Contact */}
           <div>
             <h3 className="font-semibold font-[family-name:var(--font-poppins)] mb-4">Contact</h3>
-            <div className="space-y-3 text-sm text-background/80">
+            <div className="space-y-3 text-sm text-white/90">
               <div className="flex items-center gap-2">
                 <Phone size={16} />
                 <span>+229 XX XX XX XX</span>
@@ -48,7 +48,7 @@ export function Footer() {
           {/* Links */}
           <div>
             <h3 className="font-semibold font-[family-name:var(--font-poppins)] mb-4">Liens Rapides</h3>
-            <div className="space-y-2 text-sm text-background/80">
+            <div className="space-y-2 text-sm text-white/90">
               <div>
                 <a href="#features" className="hover:text-primary transition-colors">
                   Fonctionnalités
@@ -74,7 +74,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-background/20 pt-8 text-center text-sm text-muted-foreground">
+        <div className="border-t border-white/20 pt-8 text-center text-sm text-white/80">
           <p>&copy; {new Date().getFullYear()} Wa-Catalog. Tous droits réservés.</p>
         </div>
       </div>
