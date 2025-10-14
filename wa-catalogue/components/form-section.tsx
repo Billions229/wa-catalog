@@ -68,19 +68,39 @@ export function FormSection() {
     setIsSubmitting(true)
 
     try {
-      // Simulate API call - Replace with actual Google Sheets API integration
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      console.log("[v0] Form data:", data)
-
-      setIsSuccess(true)
-      toast({
-        title: "Inscription réussie !",
-        description: "Nous vous contactons sous 24h pour finaliser votre inscription.",
+      const res = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
       })
-      reset()
 
-      setTimeout(() => setIsSuccess(false), 5000)
+      const json = await res.json()
+
+      if (!res.ok) {
+        console.error('Submit error', json)
+        toast({
+          title: 'Erreur lors de l\'envoi',
+          description: json?.error || 'Impossible d\'envoyer le formulaire',
+          variant: 'destructive',
+        })
+        return
+      }
+
+      if (json?.ok) {
+        setIsSuccess(true)
+        toast({
+          title: 'Inscription réussie !',
+          description: 'Nous vous contactons sous 24h pour finaliser votre inscription.',
+        })
+        reset()
+        setTimeout(() => setIsSuccess(false), 5000)
+      } else {
+        toast({
+          title: "Erreur",
+          description: json?.error || 'Une erreur est survenue.',
+          variant: 'destructive',
+        })
+      }
     } catch (error) {
       toast({
         title: "Erreur",

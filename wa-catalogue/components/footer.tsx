@@ -3,7 +3,8 @@ import Image from "next/image"
 
 export function Footer() {
   return (
-    <footer className="bg-foreground text-background py-12">
+    // Use the same primary background as navbar when scrolled: bg-background with a top border and primary accents
+    <footer className="bg-background text-foreground py-12">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* Brand */}
@@ -73,7 +74,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-background/20 pt-8 text-center text-sm text-background/60">
+        <div className="border-t border-background/20 pt-8 text-center text-sm text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} Wa-Catalog. Tous droits réservés.</p>
         </div>
       </div>
