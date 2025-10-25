@@ -97,13 +97,13 @@ export function Navbar() {
 
       {/* Keep overlay and panel mounted to avoid mount/unmount click races */}
       <div
-        className={`fixed inset-0 z-40 md:hidden bg-black/20 ${isMobileMenuOpen ? "block pointer-events-auto" : "hidden pointer-events-none"}`}
+        className={`fixed inset-0 z-40 md:hidden bg-black/20 no-anim-menu ${isMobileMenuOpen ? "block pointer-events-auto" : "hidden pointer-events-none"}`}
         onClick={() => setIsMobileMenuOpen(false)}
         style={{ transition: 'none' }}
       />
 
       <div
-        className={`md:hidden fixed left-0 right-0 top-[var(--navbar-height)] bg-white border-t border-gray-200 overflow-auto z-50 max-h-[calc(100vh-var(--navbar-height))] ${
+        className={`md:hidden fixed left-0 right-0 top-[var(--navbar-height)] bg-white border-t border-gray-200 overflow-auto z-50 max-h-[calc(100vh-var(--navbar-height))] no-anim-menu ${
           isMobileMenuOpen ? "block" : "hidden"
         }`}
         onClick={(e) => e.stopPropagation()}

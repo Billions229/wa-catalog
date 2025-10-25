@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { ChevronLeft, ChevronRight, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -59,33 +58,20 @@ export function TestimonialsSection() {
   return (
     <section id="testimonials" className="py-20 md:py-32">
       <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
+        {/* Section Header (animations removed) */}
+        <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-[family-name:var(--font-poppins)] mb-4 text-balance">
             Ce Que Disent Nos <span className="text-primary">Vendeurs</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
             Rejoignez des centaines de vendeurs satisfaits qui transforment leur business
           </p>
-        </motion.div>
+  </div>
 
-        {/* Testimonials Carousel */}
+        {/* Testimonials Carousel (static, animations removed) */}
         <div className="relative max-w-4xl mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIndex}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Card className="p-8 md:p-12">
+          <div key={currentIndex}>
+            <Card className="p-8 md:p-12">
                 {/* Stars */}
                 <div className="flex gap-1 mb-6 justify-center">
                   {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
@@ -111,8 +97,7 @@ export function TestimonialsSection() {
                   </div>
                 </div>
               </Card>
-            </motion.div>
-          </AnimatePresence>
+          </div>
 
           {/* Navigation Buttons */}
           <div className="flex items-center justify-center gap-4 mt-8">
