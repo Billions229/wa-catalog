@@ -40,7 +40,7 @@ export function HeroSection() {
 
             {/* Main Headline */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-[family-name:var(--font-poppins)] leading-tight mb-6 text-balance">
-              Le Google des produits sur <span className="text-primary">WhatsApp</span> pour les vendeurs africains
+              Le Google des produits sur <span className="text-primary">WhatsApp</span>
             </h1>
 
             {/* Subheadline */}
