@@ -15,10 +15,13 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 const formSchema = z.object({
   shopName: z.string().min(2, "Le nom doit contenir au moins 2 caractères"),
-  catalogLink: z
+  whatsappType: z.enum(["business", "simple"], {
+    required_error: "Veuillez sélectionner le type de WhatsApp",
+  }),
+  phoneNumber: z
     .string()
-    .url("Lien de catalogue WhatsApp invalide")
-    .regex(/wa\.me\/c\//, "Le lien doit être un lien de catalogue WhatsApp (wa.me/c/...)"),
+    .min(8, "Le numéro de téléphone doit contenir au moins 8 chiffres")
+    .regex(/^[\d\s+()-]+$/, "Le numéro de téléphone n'est pas valide"),
   city: z.string().min(2, "La ville est requise"),
   categories: z.array(z.string()).min(1, "Veuillez sélectionner au moins une catégorie"),
   keywords: z.string().min(5, "Veuillez ajouter des mots-clés pour vos produits"),
@@ -59,6 +62,7 @@ export function FormSection() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       categories: [],
+      whatsappType: undefined,
     },
   })
 
@@ -165,20 +169,68 @@ export function FormSection() {
                     {errors.shopName && <p className="text-sm text-destructive mt-1">{errors.shopName.message}</p>}
                   </div>
 
-                  {/* Catalog Link */}
+                  {/* WhatsApp Type */}
+                  <div>
+                    <label className="block text-sm font-medium mb-3">
+                      Type de compte WhatsApp <span className="text-destructive">*</span>
+                    </label>
+                    <Controller
+                      name="whatsappType"
+                      control={control}
+                      render={({ field }) => (
+                        <div className="space-y-3">
+                          <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent/50 cursor-pointer">
+                            <Checkbox
+                              id="business"
+                              checked={field.value === "business"}
+                              onCheckedChange={(checked) => {
+                                if (checked) field.onChange("business")
+                              }}
+                            />
+                            <label
+                              htmlFor="business"
+                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer flex-1"
+                            >
+                              J'ai un WhatsApp Business pour mes produits
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent/50 cursor-pointer">
+                            <Checkbox
+                              id="simple"
+                              checked={field.value === "simple"}
+                              onCheckedChange={(checked) => {
+                                if (checked) field.onChange("simple")
+                              }}
+                            />
+                            <label
+                              htmlFor="simple"
+                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer flex-1"
+                            >
+                              J'ai un WhatsApp simple pour mes produits
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                    />
+                    {errors.whatsappType && (
+                      <p className="text-sm text-destructive mt-1">{errors.whatsappType.message}</p>
+                    )}
+                  </div>
+
+                  {/* Phone Number */}
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Lien Catalogue WhatsApp <span className="text-destructive">*</span>
+                      Numéro WhatsApp <span className="text-destructive">*</span>
                     </label>
                     <Input
-                      {...register("catalogLink")}
-                      placeholder="https://wa.me/c/22953211030"
-                      className={errors.catalogLink ? "border-destructive" : ""}
+                      {...register("phoneNumber")}
+                      placeholder="Ex: +229 53 21 10 30"
+                      className={errors.phoneNumber ? "border-destructive" : ""}
                     />
-                    {errors.catalogLink && (
-                      <p className="text-sm text-destructive mt-1">{errors.catalogLink.message}</p>
+                    {errors.phoneNumber && (
+                      <p className="text-sm text-destructive mt-1">{errors.phoneNumber.message}</p>
                     )}
-                    <p className="text-sm text-muted-foreground mt-2">Exemple: https://wa.me/c/22953211030</p>
+                    <p className="text-sm text-muted-foreground mt-2">Entrez votre numéro avec l'indicatif pays</p>
                   </div>
 
                   {/* City */}
