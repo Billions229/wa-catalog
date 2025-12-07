@@ -49,6 +49,7 @@ const productCategories = [
 export function FormSection() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [successInfo, setSuccessInfo] = useState<{ shopName?: string; phoneNumber?: string } | null>(null)
   const { toast } = useToast()
 
   const {
@@ -91,13 +92,19 @@ export function FormSection() {
       }
 
       if (json?.ok) {
+        // Capture some info to show a personalized success message
+        setSuccessInfo({ shopName: data.shopName, phoneNumber: data.phoneNumber })
         setIsSuccess(true)
         toast({
           title: 'Inscription réussie !',
           description: 'Nous vous contactons sous 24h pour finaliser votre inscription.',
         })
         reset()
-        setTimeout(() => setIsSuccess(false), 5000)
+        // Keep the success message visible a bit longer
+        setTimeout(() => {
+          setIsSuccess(false)
+          setSuccessInfo(null)
+        }, 7000)
       } else {
         toast({
           title: "Erreur",
@@ -145,15 +152,59 @@ export function FormSection() {
           >
             <Card className="p-8 md:p-12">
               {isSuccess ? (
-                <div className="text-center py-12">
-                  <CheckCircle2 className="w-16 h-16 text-primary mx-auto mb-4" />
-                  <h3 className="text-2xl font-bold font-[family-name:var(--font-poppins)] mb-2">
-                    Inscription Réussie !
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.45 }}
+                  className="text-center py-8 md:py-12"
+                >
+                  <motion.div
+                    initial={{ rotate: -10, scale: 0.8 }}
+                    animate={{ rotate: 0, scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                    className="mx-auto mb-4 w-20 h-20 flex items-center justify-center rounded-full bg-primary/10"
+                  >
+                    <CheckCircle2 className="w-10 h-10 text-primary" />
+                  </motion.div>
+
+                  <h3 className="text-xl md:text-2xl font-bold font-[family-name:var(--font-poppins)] mb-2">
+                    Vous êtes désormais inscrit comme vendeur !
                   </h3>
-                  <p className="text-muted-foreground">
-                    Nous vous contactons sous 24h pour finaliser votre inscription.
+
+                  <p className="text-sm md:text-base text-muted-foreground max-w-xl mx-auto px-4">
+                    {successInfo?.shopName ? (
+                      <>
+                        Merci <span className="font-semibold">{successInfo.shopName}</span> — nous avons bien reçu votre
+                        demande.
+                      </>
+                    ) : (
+                      <>Merci — nous avons bien reçu votre demande.</>
+                    )}
                   </p>
-                </div>
+
+                  <p className="text-sm md:text-base text-muted-foreground max-w-xl mx-auto mt-3 px-4">
+                    Notre équipe vous contactera au <span className="font-medium">{successInfo?.phoneNumber}</span>{' '}
+                    pour finaliser l'inscription et vous expliquer la suite.
+                  </p>
+
+                  <div className="mt-6 flex justify-center gap-3 px-4">
+                    <Button
+                      onClick={() => {
+                        setIsSuccess(false)
+                        setSuccessInfo(null)
+                      }}
+                      variant="ghost"
+                    >
+                      Fermer
+                    </Button>
+                    <a
+                      href="/"
+                      className="inline-block"
+                    >
+                      <Button className="bg-primary text-primary-foreground">Retour à l'accueil</Button>
+                    </a>
+                  </div>
+                </motion.div>
               ) : (
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   {/* Shop Name */}
