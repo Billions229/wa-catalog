@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card } from "@/components/ui/card"
-import { Loader2, CheckCircle2 } from "lucide-react"
+import { Loader2, CheckCircle2, XCircle2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { Checkbox } from "@/components/ui/checkbox"
 
@@ -51,6 +51,7 @@ export function FormSection() {
   const [isSuccess, setIsSuccess] = useState(false)
   const [successInfo, setSuccessInfo] = useState<{ shopName?: string; phoneNumber?: string } | null>(null)
   const { toast } = useToast()
+  const [validationErrors, setValidationErrors] = useState<string[] | null>(null)
 
   const {
     register,
@@ -92,15 +93,11 @@ export function FormSection() {
       }
 
       if (json?.ok) {
-        // Capture some info to show a personalized success message
+        // Capture some info to show a personalized success message (no toast)
         setSuccessInfo({ shopName: data.shopName, phoneNumber: data.phoneNumber })
         setIsSuccess(true)
-        toast({
-          title: 'Inscription réussie !',
-          description: 'Nous vous contactons sous 24h pour finaliser votre inscription.',
-        })
         reset()
-        // Keep the success message visible a bit longer
+        // Keep the success popup visible a bit longer
         setTimeout(() => {
           setIsSuccess(false)
           setSuccessInfo(null)
@@ -152,61 +149,119 @@ export function FormSection() {
           >
             <Card className="p-8 md:p-12">
               {isSuccess ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.45 }}
-                  className="text-center py-8 md:py-12"
-                >
-                  <motion.div
-                    initial={{ rotate: -10, scale: 0.8 }}
-                    animate={{ rotate: 0, scale: 1 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    className="mx-auto mb-4 w-20 h-20 flex items-center justify-center rounded-full bg-primary/10"
-                  >
-                    <CheckCircle2 className="w-10 h-10 text-primary" />
-                  </motion.div>
+                <>
+                  {/* Backdrop */}
+                  <div
+                    className="fixed inset-0 bg-black/40 z-40"
+                    onClick={() => {
+                      setIsSuccess(false)
+                      setSuccessInfo(null)
+                    }}
+                  />
 
-                  <h3 className="text-xl md:text-2xl font-bold font-[family-name:var(--font-poppins)] mb-2">
-                    Vous êtes désormais inscrit comme vendeur !
-                  </h3>
-
-                  <p className="text-sm md:text-base text-muted-foreground max-w-xl mx-auto px-4">
-                    {successInfo?.shopName ? (
-                      <>
-                        Merci <span className="font-semibold">{successInfo.shopName}</span> — nous avons bien reçu votre
-                        demande.
-                      </>
-                    ) : (
-                      <>Merci — nous avons bien reçu votre demande.</>
-                    )}
-                  </p>
-
-                  <p className="text-sm md:text-base text-muted-foreground max-w-xl mx-auto mt-3 px-4">
-                    Notre équipe vous contactera au <span className="font-medium">{successInfo?.phoneNumber}</span>{' '}
-                    pour finaliser l'inscription et vous expliquer la suite.
-                  </p>
-
-                  <div className="mt-6 flex justify-center gap-3 px-4">
-                    <Button
-                      onClick={() => {
-                        setIsSuccess(false)
-                        setSuccessInfo(null)
-                      }}
-                      variant="ghost"
+                  {/* Centered popup */}
+                  <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.96 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.35 }}
+                      className="max-w-xl w-full"
                     >
-                      Fermer
-                    </Button>
-                    <a
-                      href="/"
-                      className="inline-block"
-                    >
-                      <Button className="bg-primary text-primary-foreground">Retour à l'accueil</Button>
-                    </a>
+                      <Card className="p-6">
+                        <div className="text-center">
+                          <motion.div
+                            initial={{ rotate: -8, scale: 0.85 }}
+                            animate={{ rotate: 0, scale: 1 }}
+                            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                            className="mx-auto mb-3 w-16 h-16 flex items-center justify-center rounded-full bg-primary/10"
+                          >
+                            <CheckCircle2 className="w-8 h-8 text-primary" />
+                          </motion.div>
+
+                          <h3 className="text-lg md:text-xl font-bold font-[family-name:var(--font-poppins)] mb-2">
+                            Vous êtes désormais inscrit comme vendeur !
+                          </h3>
+
+                          <p className="text-sm text-muted-foreground max-w-md mx-auto px-2">
+                            {successInfo?.shopName ? (
+                              <>
+                                Merci <span className="font-semibold">{successInfo.shopName}</span> — nous avons bien
+                                reçu votre demande.
+                              </>
+                            ) : (
+                              <>Merci — nous avons bien reçu votre demande.</>
+                            )}
+                          </p>
+
+                          <p className="text-sm text-muted-foreground max-w-md mx-auto mt-2 px-2">
+                            Nous vous contacterons au <span className="font-medium">{successInfo?.phoneNumber}</span>{' '}
+                            pour finaliser votre inscription.
+                          </p>
+
+                          <div className="mt-5 flex justify-center gap-3">
+                            <Button
+                              variant="ghost"
+                              onClick={() => {
+                                setIsSuccess(false)
+                                setSuccessInfo(null)
+                              }}
+                            >
+                              Fermer
+                            </Button>
+                            <a href="/">
+                              <Button className="bg-primary text-primary-foreground">Retour à l'accueil</Button>
+                            </a>
+                          </div>
+                        </div>
+                      </Card>
+                    </motion.div>
                   </div>
-                </motion.div>
+                </>
               ) : (
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <>
+                  {validationErrors && (
+                    <>
+                      <div
+                        className="fixed inset-0 bg-black/30 z-40"
+                        onClick={() => setValidationErrors(null)}
+                      />
+
+                      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <motion.div
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.25 }}
+                          className="max-w-md w-full"
+                        >
+                          <Card className="p-4 border-destructive">
+                            <div className="flex items-start gap-3">
+                              <div className="mt-1">
+                                <XCircle2 className="w-8 h-8 text-destructive" />
+                              </div>
+                              <div>
+                                <h4 className="font-semibold">Veuillez corriger les erreurs suivantes</h4>
+                                <ul className="mt-2 list-disc list-inside text-sm text-destructive">
+                                  {validationErrors.map((m, i) => (
+                                    <li key={i}>{m}</li>
+                                  ))}
+                                </ul>
+                                <div className="mt-3 flex justify-end">
+                                  <Button variant="ghost" onClick={() => setValidationErrors(null)}>
+                                    Fermer
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          </Card>
+                        </motion.div>
+                      </div>
+                    </>
+                  )}
+                <form onSubmit={handleSubmit(onSubmit, (errs) => {
+                  // Build a clear list of validation messages to show in a popup
+                  const msgs = Object.values(errs).map((e: any) => e?.message).filter(Boolean) as string[]
+                  setValidationErrors(msgs.length ? msgs : ["Veuillez remplir tous les champs requis correctement."])
+                })} className="space-y-6">
                   {/* Shop Name */}
                   <div>
                     <label className="block text-sm font-medium mb-2">

@@ -5,6 +5,15 @@ export async function POST(request: Request) {
   try {
     const data = await request.json()
 
+    // Normalize whatsappType for Google Sheets: send human-friendly values
+    const mapped = { ...data }
+    if (mapped.whatsappType) {
+      const v = String(mapped.whatsappType).toLowerCase()
+      if (v === 'business' || v.includes('business')) mapped.whatsappType = 'WhatsApp Business'
+      else if (v === 'simple' || v.includes('simple')) mapped.whatsappType = 'WhatsApp Simple'
+      else mapped.whatsappType = String(mapped.whatsappType)
+    }
+
     // If a webhook URL is configured, forward to it (backwards compatible)
     const webhook = process.env.GOOGLE_SHEETS_WEBHOOK
     if (webhook) {
@@ -47,9 +56,9 @@ export async function POST(request: Request) {
   const sheets = google.sheets({ version: 'v4', auth: client })
 
     // Prepare a row: use consistent column order (sorted keys) so the sheet is stable
-    const keys = Object.keys(data)
+    const keys = Object.keys(mapped)
     const values = keys.map((k) => {
-      const v = data[k]
+      const v = mapped[k]
       if (Array.isArray(v)) return v.join(', ')
       if (v === null || v === undefined) return ''
       return String(v)
