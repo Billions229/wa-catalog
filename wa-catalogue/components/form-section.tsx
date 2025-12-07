@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card } from "@/components/ui/card"
-import { Loader2, CheckCircle2, XCircle2 } from "lucide-react"
+import { Loader2, CheckCircle2, XCircle } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { Checkbox } from "@/components/ui/checkbox"
 
@@ -236,7 +236,7 @@ export function FormSection() {
                           <Card className="p-4 border-destructive">
                             <div className="flex items-start gap-3">
                               <div className="mt-1">
-                                <XCircle2 className="w-8 h-8 text-destructive" />
+                                <XCircle className="w-8 h-8 text-destructive" />
                               </div>
                               <div>
                                 <h4 className="font-semibold">Veuillez corriger les erreurs suivantes</h4>
@@ -427,6 +427,7 @@ export function FormSection() {
                     )}
                   </Button>
                 </form>
+                </>
               )}
             </Card>
           </motion.div>
