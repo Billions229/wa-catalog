@@ -14,15 +14,15 @@ export async function POST(request: Request) {
       else mapped.whatsappType = String(mapped.whatsappType)
     }
 
-    // Add submitted timestamps so the sheet records when the form was sent
+    // Add submitted ISO timestamp server-side. If the client already sent
+    // a human-readable timestamp (`submittedAtHuman`), do not overwrite it.
     try {
       const now = new Date()
       mapped.submittedAtISO = now.toISOString()
-      // Human readable in French locale: DD/MM/YYYY HH:mm
-      mapped.submittedAtHuman = now.toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })
+      if (!mapped.submittedAtHuman) mapped.submittedAtHuman = ''
     } catch (err) {
       mapped.submittedAtISO = ''
-      mapped.submittedAtHuman = ''
+      if (!mapped.submittedAtHuman) mapped.submittedAtHuman = ''
     }
 
     // If a webhook URL is configured, forward to it (backwards compatible)
