@@ -14,6 +14,17 @@ export async function POST(request: Request) {
       else mapped.whatsappType = String(mapped.whatsappType)
     }
 
+    // Add submitted timestamps so the sheet records when the form was sent
+    try {
+      const now = new Date()
+      mapped.submittedAtISO = now.toISOString()
+      // Human readable in French locale: DD/MM/YYYY HH:mm
+      mapped.submittedAtHuman = now.toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })
+    } catch (err) {
+      mapped.submittedAtISO = ''
+      mapped.submittedAtHuman = ''
+    }
+
     // If a webhook URL is configured, forward to it (backwards compatible)
     const webhook = process.env.GOOGLE_SHEETS_WEBHOOK
     if (webhook) {

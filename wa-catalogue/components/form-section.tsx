@@ -194,23 +194,34 @@ export function FormSection() {
                           </p>
 
                           <p className="text-sm text-muted-foreground max-w-md mx-auto mt-2 px-2">
-                            Nous vous contacterons au <span className="font-medium">{successInfo?.phoneNumber}</span>{' '}
-                            pour finaliser votre inscription.
+                            Pour accélérer la suite, rejoignez notre groupe WhatsApp des vendeurs :
                           </p>
 
-                          <div className="mt-5 flex justify-center gap-3">
-                            <Button
-                              variant="ghost"
-                              onClick={() => {
-                                setIsSuccess(false)
-                                setSuccessInfo(null)
-                              }}
+                          <div className="mt-5 flex flex-col sm:flex-row justify-center gap-3">
+                            <a
+                              href="https://chat.whatsapp.com/KEXSEk8oNXC4me06ZvB2oV?mode=hqrt2"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-block w-full sm:w-auto"
                             >
-                              Fermer
-                            </Button>
-                            <a href="/">
-                              <Button className="bg-primary text-primary-foreground">Retour à l'accueil</Button>
+                              <Button className="bg-emerald-600 text-white w-full sm:w-auto">Rejoindre le groupe WhatsApp</Button>
                             </a>
+
+                            <div className="flex gap-2">
+                              <Button
+                                variant="ghost"
+                                onClick={() => {
+                                  setIsSuccess(false)
+                                  setSuccessInfo(null)
+                                }}
+                              >
+                                Fermer
+                              </Button>
+
+                              <a href="/">
+                                <Button className="bg-primary text-primary-foreground">Retour à l'accueil</Button>
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </Card>
