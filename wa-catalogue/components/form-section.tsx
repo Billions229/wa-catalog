@@ -74,10 +74,23 @@ export function FormSection() {
     setIsSubmitting(true)
 
     try {
+      // Attach a human-readable timestamp computed in the user's browser
+      const now = new Date()
+      const submittedAtHuman = now.toLocaleString('fr-FR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      })
+
+      const payload = { ...data, submittedAtHuman }
+
       const res = await fetch('/api/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       })
 
       const json = await res.json()
@@ -97,11 +110,7 @@ export function FormSection() {
         setSuccessInfo({ shopName: data.shopName, phoneNumber: data.phoneNumber })
         setIsSuccess(true)
         reset()
-        // Keep the success popup visible a bit longer
-        setTimeout(() => {
-          setIsSuccess(false)
-          setSuccessInfo(null)
-        }, 7000)
+        // Do NOT auto-close the success popup — user should close it explicitly
       } else {
         toast({
           title: "Erreur",
