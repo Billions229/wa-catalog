@@ -203,18 +203,33 @@ export function FormSection() {
                           </p>
 
                           <p className="text-sm text-muted-foreground max-w-md mx-auto mt-2 px-2">
-                            Pour accélérer la suite, rejoignez notre groupe WhatsApp des vendeurs :
+                            Pour connaître la suite de votre inscription, cliquez sur le bouton ci-dessous :
                           </p>
 
                           <div className="mt-5 flex flex-col sm:flex-row justify-center gap-3">
-                            <a
-                              href="https://chat.whatsapp.com/KEXSEk8oNXC4me06ZvB2oV?mode=hqrt2"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-block w-full sm:w-auto"
+                            <Button
+                              className="bg-emerald-600 text-white w-full sm:w-auto"
+                              onClick={() => {
+                                // Liste des numéros WhatsApp des vendeurs
+                                // Un numéro est sélectionné aléatoirement pour chaque inscription
+                                const whatsappNumbers = [
+                                  "22999323073",   // Vendeur 1
+                                  "22960813863",   // Vendeur 2
+                                  "22998403695",   // Vendeur 3
+                                  "22962703515",   // Vendeur 4
+                                  "22953972815",   // Vendeur 5
+                                ]
+                                // Sélectionne un numéro aléatoire de la liste
+                                const randomNumber = whatsappNumbers[Math.floor(Math.random() * whatsappNumbers.length)]
+                                const message = encodeURIComponent(
+                                  "Salut, je viens de m'inscrire sur le site https://kloo.me/vendeur-wa-catalogue pour devenir vendeur. J'aimerais savoir, c'est quoi la suite ?"
+                                )
+                                // Ouvre WhatsApp avec le message pré-rempli
+                                window.open(`https://wa.me/${randomNumber}?text=${message}`, "_blank")
+                              }}
                             >
-                              <Button className="bg-emerald-600 text-white w-full sm:w-auto">Rejoindre le groupe WhatsApp</Button>
-                            </a>
+                              Savoir la suite
+                            </Button>
 
                             <div className="flex gap-2">
                               <Button
