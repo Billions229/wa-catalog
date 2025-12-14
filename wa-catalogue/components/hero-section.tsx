@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
-import { IPhoneMockup } from "@/components/iphone-mockup"
 import { ArrowRight, Sparkles } from "lucide-react"
 
 export function HeroSection() {
@@ -94,14 +93,29 @@ export function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Right Column - iPhone Mockup */}
+          {/* Right Column - Video */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 50 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="flex justify-center lg:justify-end"
           >
-            <IPhoneMockup />
+            <div className="relative w-full max-w-md overflow-hidden rounded-3xl">
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                crossOrigin="anonymous"
+                className="w-full h-auto block rounded-3xl shadow-2xl bg-white"
+                style={{ pointerEvents: "none", display: "block" }}
+              >
+                <source
+                  src="https://res.cloudinary.com/dysfocdyw/video/upload/v1765740876/Screenrecorder-2025-12-14-20-30-55-908_uvcijv.mp4"
+                  type="video/mp4"
+                />
+              </video>
+            </div>
           </motion.div>
         </div>
       </div>
