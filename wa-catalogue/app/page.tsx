@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/navbar"
 import { HeroSection } from "@/components/hero-section"
+import { ProductsSection } from "@/components/products-section"
 import { ServicesSection } from "@/components/services-section"
 import { FeaturesSection } from "@/components/features-section"
 import { TestimonialsSection } from "@/components/testimonials-section"
@@ -12,6 +13,7 @@ export default function Home() {
     <main className="min-h-screen">
       <Navbar />
       <HeroSection />
+      <ProductsSection />
       <ServicesSection />
       <FeaturesSection />
       <TestimonialsSection />

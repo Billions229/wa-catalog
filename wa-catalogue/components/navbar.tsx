@@ -55,6 +55,12 @@ export function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <button
+              onClick={() => scrollToSection("products")}
+              className="text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors"
+            >
+              Produits
+            </button>
+            <button
               onClick={() => scrollToSection("services")}
               className="text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors"
             >
@@ -117,6 +123,9 @@ export function Navbar() {
         style={{ transition: 'none' }}
       >
         <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
+          <button onClick={() => scrollToSection("products")} className="text-left py-2 text-slate-700 hover:text-slate-900 transition-all">
+            Produits
+          </button>
           <button onClick={() => scrollToSection("services")} className="text-left py-2 text-slate-700 hover:text-slate-900 transition-all">
             Services
           </button>
